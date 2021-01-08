@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div class="input" style="width: 350px;">
+        <b>[입력]</b>
+        <form action="/html-division/division" method="get">
+            <div class="form-group">
+                <label for="url">URL</label>
+                <input type="text" id="url" name="url" style="float:right;"></br>
+                <label for="type">TYPE</label>
+                <select id="type" name="type" style="width:177px; float:right;">
+                    <option value="tagExclusion">HTML 태그 제외</option>
+                    <option value="totalText">Text 전체</option>
+                </select></br>
+                <label for="divisor">출력 단위 묶음</label>
+                <input type="text" id="divisor" name="divisor" style="float:right;"></br>
+                <button type="submit" style="float:right;">출력</button></br>
+            </div>
+        </form>
+    </div>
+    <div class="output">
+        <b>[출력]</b>
+        <p id="quotient" th:text="${quotient != null} ? '몫: '+${quotient} : '몫: '+''"> </p>
+        <p id="remainder" th:text="${remainder != null} ? '나머지: '+${remainder} : '나머지: '+''"> </p>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
