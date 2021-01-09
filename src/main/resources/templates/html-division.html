@@ -1,10 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 <body>
 <div class="container">
     <div class="input" style="width: 350px;">
         <b>[입력]</b>
-        <form action="/html-division/division" method="get">
+        <form id="myForm" action="/html-division/calculate" method="get">
             <div class="form-group">
                 <label for="url">URL</label>
                 <input type="text" id="url" name="url" style="float:right;"></br>
@@ -21,9 +24,38 @@
     </div>
     <div class="output">
         <b>[출력]</b>
-        <p id="quotient" th:text="${quotient != null} ? '몫: '+${quotient} : '몫: '+''"> </p>
-        <p id="remainder" th:text="${remainder != null} ? '나머지: '+${remainder} : '나머지: '+''"> </p>
+        <div>
+            몫: <p id="quotient"></p>
+            나머지: <p id="remainder"></p>
+        </div>
     </div>
 </div> <!-- /container -->
+<script>
+    $('#myForm').submit(function(e) {
+        console.log('test', e);
+        e.preventDefault();
+        var param = 'url=' + $('#url').val() + '&' +
+         'type=' + $('#type').val() + '&' +
+         'divisor=' + $('#divisor').val();
+
+        $.ajax({
+            url: `/html-division/calculate?` + param,
+            method: 'GET',
+            dataType: 'json'
+         })
+        .done((res) => {
+            if (!res.errorMsg) {
+                $('#quotient').text(res.quotient);
+                $('#remainder').text(res.remainder);
+            }
+        })
+        .fail(() => {
+
+        });
+    })
+
+
+</script>
 </body>
+
 </html>
