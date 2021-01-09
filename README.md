@@ -1,5 +1,6 @@
 # HTML-DIVISION
 ## 스프링부트 프로젝트
+#### URL입력받아 HTML 문자열 처리하는 프로그램
 
 ### 비즈니스 프로세스
 1. 화면에서 URL을 입력 받는다(localhost:8080/html-division)
