@@ -7,7 +7,7 @@
 <div class="container">
     <div class="input" style="width: 350px;">
         <b>[입력]</b>
-        <form id="myForm" action="/html-division/calculate" method="get">
+        <form id="html-division-form" action="/html-division/calculate" method="get">
             <div class="form-group">
                 <label for="url">URL</label>
                 <input type="text" id="url" name="url" style="float:right;"></br>
@@ -31,7 +31,7 @@
     </div>
 </div> <!-- /container -->
 <script>
-    $('#myForm').submit(function(e) {
+    $('#html-division-form').submit(function(e) {
         console.log('test', e);
         e.preventDefault();
         var param = 'url=' + $('#url').val() + '&' +
@@ -49,8 +49,20 @@
                 $('#remainder').text(res.remainder);
             }
         })
-        .fail(() => {
-
+        .fail((data, textStatus) => {
+            var errorMsg = '';
+            if(data.responseJSON.url) {
+                errorMsg += 'URL: ' + data.responseJSON.url + '\n'
+            }
+            if(data.responseJSON.type) {
+                errorMsg += 'TYPE: ' + data.responseJSON.type + '\n'
+            }
+            if(data.responseJSON.divisor) {
+                errorMsg += '출력 단위 묶음: ' + data.responseJSON.divisor + '\n'
+            }
+            if(errorMsg) {
+                alert(errorMsg);
+            }
         });
     })
 

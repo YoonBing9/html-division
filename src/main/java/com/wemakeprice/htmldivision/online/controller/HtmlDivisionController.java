@@ -1,7 +1,5 @@
 package com.wemakeprice.htmldivision.online.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wemakeprice.htmldivision.online.WebLogger;
 import com.wemakeprice.htmldivision.online.domain.dto.HtmlDivisionInDto;
 import com.wemakeprice.htmldivision.online.domain.dto.HtmlDivisionOutDto;
@@ -29,19 +27,12 @@ public class HtmlDivisionController {
 
     @ResponseBody
     @GetMapping("html-division/calculate")
-    public ResponseEntity calculate(HttpServletRequest request, @Valid HtmlDivisionInDto htmlDivisionInDto, BindingResult result) throws JsonProcessingException {
+    public ResponseEntity calculate(HttpServletRequest request, @Valid HtmlDivisionInDto htmlDivisionInDto) {
         logger.setRequestURL(request.getRequestURI());
         logger.info(htmlDivisionInDto.toString());
-        HtmlDivisionOutDto htmlDivisionOutDto;
 
-        if(result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-        /*else {
-            htmlDivisionOutDto = htmlDivisionService.calculate(htmlDivisionInDto);
-        }*/
-        htmlDivisionOutDto = htmlDivisionService.calculate(htmlDivisionInDto);
-        System.out.println(htmlDivisionOutDto.toString());
+        HtmlDivisionOutDto htmlDivisionOutDto = htmlDivisionService.calculate(htmlDivisionInDto);
+
         return ResponseEntity.ok(htmlDivisionOutDto);
     }
 }

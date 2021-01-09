@@ -25,6 +25,10 @@ public class WebLogger {
         logger.info("[" + uuid + "]" + "[" + requestURL + "] " + message);
     }
 
+    public void error(String message, Throwable e) {
+        logger.error("[" + uuid + "]" + "[" + requestURL + "] " + message, e);
+    }
+
     @PostConstruct
     public void init() {
         uuid = UUID.randomUUID().toString();

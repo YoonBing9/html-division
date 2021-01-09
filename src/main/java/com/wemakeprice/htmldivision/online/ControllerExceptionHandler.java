@@ -1,28 +1,27 @@
 package com.wemakeprice.htmldivision.online;
 
-import org.springframework.validation.BindingResult;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@RequiredArgsConstructor
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String processValidationError(MethodArgumentNotValidException exception) {
-        BindingResult bindingResult = exception.getBindingResult();
+    private final WebLogger logger;
 
-        StringBuilder builder = new StringBuilder();
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            builder.append("[");
-            builder.append(fieldError.getField());
-            builder.append("](은)는 ");
-            builder.append(fieldError.getDefaultMessage());
-            builder.append(" 입력된 값: [");
-            builder.append(fieldError.getRejectedValue());
-            builder.append("]");
-        }
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(BindException ex){
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors()
+                .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
 
-        return builder.toString();
+        logger.error("BindException",ex);
+        return ResponseEntity.badRequest().body(errors);
     }
 }

@@ -32,17 +32,12 @@ public class HtmlDivisionServiceImpl implements HtmlDivisionService{
     public HtmlDivisionOutDto calculate(HtmlDivisionInDto htmlDivisionInDto) {
         inDto = htmlDivisionInDto;
         String contents = "";
-        System.out.println("1");
         contents = getHtml(inDto.getUrl());
-        System.out.println("2");
         if(htmlDivisionInDto.getType().equals("tagExclusion")) {
             contents = removeTags(contents);
         }
-        System.out.println("3");
         List engList = sortEnglish(OnlyEnglishFilter(contents));
-        System.out.println("4");
         List numList = sortNumber(OnlyNumberFilter(contents));
-        System.out.println("5");
         return division(Integer.valueOf(htmlDivisionInDto.getDivisor()), mixList(engList, numList));
     }
 
