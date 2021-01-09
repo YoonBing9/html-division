@@ -5,6 +5,7 @@ import com.wemakeprice.htmldivision.online.domain.dto.HtmlDivisionOutDto;
 import org.assertj.core.api.Assertions;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,25 +27,34 @@ class HtmlDivisionServiceImplTest {
 
     @Test
     void calculate() {
-        System.out.println(htmlDivisionService.calculate(HtmlDivisionInDto.builder()
+        /*System.out.println(htmlDivisionService.calculate(HtmlDivisionInDto.builder()
                 .divisor("10")
                 .type("tagExclusion")
                 .url(testUrl)
                 .build()
                 )
-        );
+        );*/
     }
 
     @Test
     @DisplayName("URL로 HTML 가져오기")
     void getHtml() {
-        Assertions.assertThat(htmlDivisionService.getHtml(testUrl)).contains("html");
+        try {
+            Assertions.assertThat(htmlDivisionService.getHtml(testUrl)).contains("html");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @DisplayName("문자열에서 HTML 요소만 삭제")
     void removeTags() {
-        String html = htmlDivisionService.getHtml(testUrl);
+        String html = "";
+        try {
+             html = htmlDivisionService.getHtml(testUrl);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         String removedTagStr = htmlDivisionService.removeTags(html);
 
@@ -54,7 +64,12 @@ class HtmlDivisionServiceImplTest {
     @Test
     @DisplayName("영어만 필터링")
     void OnlyEnglishFilter() {
-        String html = htmlDivisionService.getHtml(testUrl);
+        String html = "";
+        try {
+            html = htmlDivisionService.getHtml(testUrl);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         String onlyEng = htmlDivisionService.OnlyEnglishFilter(html);
 
@@ -64,7 +79,12 @@ class HtmlDivisionServiceImplTest {
     @Test
     @DisplayName("숫자만 필터링")
     void OnlyNumberFilter() {
-        String html = htmlDivisionService.getHtml(testUrl);
+        String html = "";
+        try {
+            html = htmlDivisionService.getHtml(testUrl);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         String onlyNum = htmlDivisionService.OnlyNumberFilter(html);
 
@@ -73,14 +93,25 @@ class HtmlDivisionServiceImplTest {
 
     @Test
     void sortEnglish() {
-        System.out.println(htmlDivisionService.sortEnglish(htmlDivisionService.OnlyEnglishFilter(htmlDivisionService.getHtml("https://www.naver.com"))));
+        String html = "";
+        try {
+            html = htmlDivisionService.getHtml(testUrl);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        //System.out.println(htmlDivisionService.sortEnglish(htmlDivisionService.OnlyEnglishFilter(html)));
     }
 
     @Test
     @DisplayName("오름차순으로 정렬된 숫자는 무조건 앞의 요소보다 크거나 같다.")
     void sortNumber() {
         boolean isSorted = true;
-        String html = htmlDivisionService.getHtml(testUrl);
+        String html = "";
+        try {
+            html = htmlDivisionService.getHtml(testUrl);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         String onlyNum = htmlDivisionService.OnlyNumberFilter(html);
 
         List<String> list = htmlDivisionService.sortNumber(onlyNum);

@@ -47,6 +47,8 @@
             if (!res.errorMsg) {
                 $('#quotient').text(res.quotient);
                 $('#remainder').text(res.remainder);
+            }else {
+                alert(res.errorMsg);
             }
         })
         .fail((data, textStatus) => {

@@ -11,10 +11,12 @@ import lombok.ToString;
 public class HtmlDivisionOutDto {
     private String quotient;
     private String remainder;
+    private String errorMsg;
 
     @Builder
-    public HtmlDivisionOutDto(String quotient, String remainder) {
+    public HtmlDivisionOutDto(String quotient, String remainder, String errorMsg) {
         this.quotient = quotient;
         this.remainder = remainder;
+        this.errorMsg = errorMsg;
     }
 }
